@@ -1,51 +1,98 @@
 <section class="horizontal-form">
   {{#accordion-list showExpandAll=false as | al expandFn |}}
-    {{!-- This line shows the driver title which you don't have to change it --}}
-    <div class="over-hr mb-20"><span>{{driverOptionsTitle}}</span></div>
+  {{!-- This line shows the driver title which you don't have to change it --}}
+  <div class="over-hr mb-20"><span>{{driverOptionsTitle}}</span></div>
 
-    {{!-- An example input option --}}
-    <div class="row box mt-20">
-      <h4>Instance Options</h4>
-      <div class="row">
-        <div class="col span-2 col-inline">
-          <label>CPUs</label>
-        </div>
+  {{!-- An example input option --}}
+  <div class="row box mt-20">
+    <h4>
+      Accounc Access
+      <div class="desc">Configure where to access SmartX Virtual Machine Service and credentials</div>
+    </h4>
+    <div class="row">
+      <div class="col span-6">
+        <label>SmartX Cluster IP Address</label>
+        {{input value=config.ip}}
+      </div>
 
-        <div class="col span-1">
-          {{config.cpuCount}}
-        </div>
-        <div class="col span-3">
-          {{input-slider value=config.cpuCount valueMin=1 valueMax=32}}
-        </div>
+      <div class="col span-6">
+        <label>Port</label>
+        {{input-integer value=config.port}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col span-3 col-inline">
+        <label>Username</label>
+      </div>
+      <div class="col span-3">
+        {{input value=config.username classNames="form-control"}}
+      </div>
 
-        <div class="col span-2 col-inline">
-          <label>Memory Size</label>
+      <div class="col span-3 col-inline">
+        <label>Password</label>
+      </div>
+      <div class="col span-3">
+        {{input value=config.password classNames="form-control"}}
+      </div>
+    </div>
+    <div class="hint">Note: The account provided must has previlleges to manage virtual machines.</div>
+  </div>
+
+  <div class="row box mt-20">
+    <h4>
+      Instance Options
+      <div class="desc">Choose ...</div>
+    </h4>
+    <div class="row">
+      <div class="col span-2 col-inline">
+        <label>CPUs</label>
+      </div>
+      <div class="col span-4">
+        <div class="input-group">
+          {{input-integer min=1 value=config.cpuCount classNames="form-control"}}
+          <div class="input-group-addon bg-default">Cores</div>
         </div>
-        <div class="col span-4">
-          <div class="input-group">
-            {{input-integer min=1 value=config.memorySize classNames="form-control"}}
-            <div class="input-group-addon bg-default">MB</div>
-          </div>
+      </div>
+
+      <div class="col span-2 col-inline">
+        <label>Memory</label>
+      </div>
+      <div class="col span-4">
+        <div class="input-group">
+          {{input-integer min=1 value=config.memorySize classNames="form-control"}}
+          <div class="input-group-addon bg-default">MB</div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col span-2 col-inline">
+        <label>Disk</label>
+      </div>
+      <div class="col span-4">
+        <div class="input-group">
+          {{input-integer min=1 value=config.diskSize classNames="form-control"}}
+          <div class="input-group-addon bg-default">MB</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    {{!-- This following contains the Name, Labels and Engine Options fields --}}
-    <div class="over-hr"><span>{{templateOptionsTitle}}</span></div>
+  {{!-- This following contains the Name, Labels and Engine Options fields --}}
+  <div class="over-hr"><span>{{templateOptionsTitle}}</span></div>
 
-    {{form-name-description
+  {{form-name-description
       model=model
       nameRequired=true
     }}
 
-    {{form-user-labels
+  {{form-user-labels
       initialLabels=labelResource.labels
       setLabels=(action 'setLabels')
       expandAll=expandAll
       expand=(action expandFn)
     }}
 
-    {{form-engine-opts
+  {{form-engine-opts
       machine=model
       showEngineUrl=showEngineUrl
     }}

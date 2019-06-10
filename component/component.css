@@ -1,3 +1,17 @@
 .machine-driver.%%DRIVERNAME%% {
-  background-image: url('example.svg');
+  background-image: url("example.svg");
+}
+
+.box h4 div {
+  font-size: 12px;
+}
+
+.box label {
+  height: 36.5px;
+  display: flex;
+  align-items: center;
+}
+
+.box .hint {
+  font-size: 12px;
 }
