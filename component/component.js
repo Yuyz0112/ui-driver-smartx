@@ -45,16 +45,19 @@ export default Ember.Component.extend(NodeDriver, {
     // bootstrap is called by rancher ui on 'init', you're better off doing your setup here rather then the init function to ensure everything is setup correctly
     let config = get(this, 'globalStore').createRecord({
       type: '%%DRIVERNAME%%Config',
-      ip: '',
+      server: '',
       port: '',
       username: '',
       password: '',
 
       cpuCount: 2,
-      memorySize: 2048,
+      memorySize: 4096,
       diskSize: 10240,
-      storagePolicyName: '',
-      dockerosImageUrl: ''
+      storagePolicyName: 'default',
+      dockerosImageUrl: '',
+
+      networkName: 'default',
+      ha: false,
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -65,16 +68,55 @@ export default Ember.Component.extend(NodeDriver, {
     // Get generic API validation errors
     this._super();
     var errors = get(this, 'errors')||[];
-    if ( !get(this, 'model.name') ) {
-      errors.push('Name is required');
-    }
+    const fields = [
+      {
+        key: 'server',
+        title: 'IP address'
+      },
+      {
+        key: 'port',
+        title: 'Port'
+      },
+      {
+        key: 'username',
+        title: 'Username'
+      },
+      {
+        key: 'password',
+        title: 'Password'
+      },
+      {
+        key: 'cpuCount',
+        title: 'CPUs'
+      },
+      {
+        key: 'memorySize',
+        title: 'Memory'
+      },
+      {
+        key: 'diskSize',
+        title: 'Disk'
+      },
+      {
+        key: 'storagePolicyName',
+        title: 'Storage policy'
+      },
+      {
+        key: 'dockerosImageUrl',
+        title: 'OS image URL'
+      },
+      {
+        key: 'networkName',
+        title: 'Network'
+      }
+    ];
+    fields.forEach(field => {
+      if (!get(this, `model.elfConfig.${field.key}`)) {
+        errors.push(`${field.title} is required`)
+      }
+    })
 
     // Add more specific errors
-
-    // Check something and add an error entry if it fails:
-    if ( parseInt(get(this, 'config.memorySize'), defaultRadix) < defaultBase ) {
-      errors.push('Memory Size must be at least 1024 MB');
-    }
 
     // Set the array of errors for display,
     // and return true if saving should continue.

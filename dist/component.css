@@ -1,4 +1,4 @@
-.machine-driver.%%DRIVERNAME%% {
+.machine-driver.elf {
   background-image: url("smartx-logo-rancher.svg");
   background-size: 75%;
 }
