@@ -65,16 +65,6 @@ define("nodes/components/driver-smtxos/component", ["exports", "shared/mixins/no
     bootstrap: function bootstrap() {
       var config = get(this, 'globalStore').createRecord({
         type: 'smtxosConfig',
-        server: '',
-        port: '',
-        username: '',
-        password: '',
-        cpuCount: 2,
-        memorySize: 4096,
-        diskSize: 10240,
-        storagePolicyName: 'default',
-        dockerosImagePath: '',
-        networkName: 'default',
         ha: false
       });
       set(this, 'model.smtxosConfig', config);

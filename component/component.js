@@ -45,19 +45,7 @@ export default Ember.Component.extend(NodeDriver, {
     // bootstrap is called by rancher ui on 'init', you're better off doing your setup here rather then the init function to ensure everything is setup correctly
     let config = get(this, 'globalStore').createRecord({
       type: '%%DRIVERNAME%%Config',
-      server: '',
-      port: '',
-      username: '',
-      password: '',
-
-      cpuCount: 2,
-      memorySize: 4096,
-      diskSize: 10240,
-      storagePolicyName: 'default',
-      dockerosImagePath: '',
-
-      networkName: 'default',
-      ha: false,
+      ha: false
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
