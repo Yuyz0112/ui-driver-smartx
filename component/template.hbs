@@ -1,113 +1,142 @@
-<section class="horizontal-form">
+<section class="horizontal-form smtxos-form">
   {{#accordion-list showExpandAll=false as | al expandFn |}}
   {{!-- This line shows the driver title which you don't have to change it --}}
   <div class="over-hr mb-20"><span>{{driverOptionsTitle}}</span></div>
 
   {{!-- An example input option --}}
   <div class="row box mt-20">
-    <h4>
-      1. Accounc Access
-      <div class="desc">Configure where to access SmartX Virtual Machine Service and credentials</div>
-    </h4>
-    <div class="row">
-      <div class="col span-6">
-        <label class="required">SmartX Cluster IP Address</label>
-        {{input value=config.server}}
+    <header onclick={{action "toggle" "account"}}>
+      <i role="button"
+        class="{{if collapseMap.account "icon icon-play eased btn bg-transparent icon-rotate-90" "icon icon-play eased btn bg-transparent"}}">
+        <span class="visually-hidden">Open accordion</span>
+      </i>
+      <h4>
+        1. Account Access
+        <div class="desc">Configure where to access SmartX Virtual Machine Service and credentials</div>
+      </h4>
+    </header>
+    {{#if this.collapseMap.account}}
+    <main>
+      <div class="row">
+        <div class="col span-6">
+          <label class="required">SmartX Cluster IP Address</label>
+          {{input value=config.server}}
+        </div>
+        <div class="col span-6">
+          <label class="required">Port</label>
+          {{input-integer value=config.port}}
+        </div>
       </div>
-      <div class="col span-6">
-        <label class="required">Port</label>
-        {{input-integer value=config.port}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col span-6">
-        <label class="required">Username</label>
-        {{input value=config.username}}
-      </div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="required">Username</label>
+          {{input value=config.username}}
+        </div>
 
-      <div class="col span-6">
-        <label class="required">Password</label>
-        {{input value=config.password type="password"}}
+        <div class="col span-6">
+          <label class="required">Password</label>
+          {{input value=config.password type="password"}}
+        </div>
       </div>
-    </div>
-    <div class="hint">
-      Note: The account provided must has previlleges to manage virtual
-      machines.
-    </div>
+      <div class="hint">
+        Note: The account provided must has previlleges to manage virtual
+        machines.
+      </div>
+    </main>
+    {{/if}}
   </div>
 
   <div class="row box mt-20">
-    <h4>
-      2. Instance Options
-      <div class="desc">Choose the size and OS of the virtual machines</div>
-    </h4>
-    <div class="row">
-      <div class="col span-6">
-        <label class="required">CPUs</label>
-        <div class="input-group">
-          {{input-integer min=1 value=config.cpuCount}}
-          <div class="input-group-addon bg-default">cores</div>
+    <header onclick={{action "toggle" "instance"}}>
+      <i role="button"
+        class="{{if collapseMap.instance "icon icon-play eased btn bg-transparent icon-rotate-90" "icon icon-play eased btn bg-transparent"}}">
+        <span class="visually-hidden">Open accordion</span>
+      </i>
+      <h4>
+        2. Instance Options
+        <div class="desc">Choose the size and OS of the virtual machines</div>
+      </h4>
+    </header>
+    {{#if this.collapseMap.instance}}
+    <main>
+      <div class="row">
+        <div class="col span-6">
+          <label class="required">CPUs</label>
+          <div class="input-group">
+            {{input-integer min=1 value=config.cpuCount}}
+            <div class="input-group-addon bg-default">cores</div>
+          </div>
+        </div>
+
+        <div class="col span-6">
+          <label class="required">Memory</label>
+          <div class="input-group">
+            {{input-integer min=1 value=config.memorySize}}
+            <div class="input-group-addon bg-default">MiB</div>
+          </div>
         </div>
       </div>
 
-      <div class="col span-6">
-        <label class="required">Memory</label>
-        <div class="input-group">
-          {{input-integer min=1 value=config.memorySize}}
-          <div class="input-group-addon bg-default">MiB</div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="required">Disk</label>
+          <div class="input-group">
+            {{input-integer min=1 value=config.diskSize}}
+            <div class="input-group-addon bg-default">MiB</div>
+          </div>
+        </div>
+
+        <div class="col span-6">
+          <label class="required">Storage Policy</label>
+          {{input value=config.storagePolicyName}}
+          <div class="hint">Note: Specify the exact name of the storage policy in your SmartX cluster.</div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col span-6">
-        <label class="required">Disk</label>
-        <div class="input-group">
-          {{input-integer min=1 value=config.diskSize}}
-          <div class="input-group-addon bg-default">MiB</div>
+      <div class="row">
+        <label class="required">OS Image Path</label>
+        {{input value=config.dockerosImagePath}}
+        <div class="hint">Note: Upload the SmartX DockerOS Image to a NFS datastore in your SmartX cluster. Then input
+          the
+          path of the image file here. The path should be formated as [datastore-name]/file-path.
         </div>
       </div>
-
-      <div class="col span-6">
-        <label class="required">Storage Policy</label>
-        {{input value=config.storagePolicyName}}
-        <div class="hint">Note: Specify the exact name of the storage policy in your SmartX cluster.</div>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="required">OS Image URL</label>
-      {{input value=config.dockerosImageUrl}}
-      <div class="hint">Note: Upload the SmartX Docker OS Image to a NFS datastore in your SmartX
-        cluster. Then input the URL of the image file here. The URL is formated as
-        datastore-name/file-path.
-      </div>
-    </div>
+    </main>
+    {{/if}}
   </div>
 
   <div class="row box mt-20">
-    <h4>
-      3. Instance Options
-      <div class="desc">Choose scheduling preferences of the virtual machines</div>
-    </h4>
+    <header onclick={{action "toggle" "scheduling"}}>
+      <i role="button"
+        class="{{if collapseMap.scheduling "icon icon-play eased btn bg-transparent icon-rotate-90" "icon icon-play eased btn bg-transparent"}}">
+        <span class="visually-hidden">Open accordion</span>
+      </i>
+      <h4>
+        3. Scheduling
+        <div class="desc">Choose scheduling preferences of the virtual machines</div>
+      </h4>
+    </header>
+    {{#if this.collapseMap.scheduling}}
+    <main>
+      <div class="row">
+        <div class="col span-6">
+          <label class="required">Network</label>
+          {{input value=config.networkName}}
+          <div class="hint">
+            Note: Specify the exact name of the VM network in your SmartX cluster.
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col span-6">
-        <label class="required">Network</label>
-        {{input value=config.networkName}}
-        <div class="hint">
-          Note: Specify the exact name of the VM network in your SmartX cluster.
+        <div class="col span-6">
+          <label>HA</label>
+          <div class="switch">
+            {{input checked=config.ha type="checkbox" name="ha" id="ha"}}
+            <label for="ha"></label>
+          </div>
         </div>
       </div>
-
-      <div class="col span-6">
-        <label>HA</label>
-        <div class="switch">
-          {{input checked=config.ha type="checkbox" name="ha" id="ha"}}
-          <label for="ha"></label>
-        </div>
-      </div>
-    </div>
+    </main>
+    {{/if}}
   </div>
 
   {{!-- This following contains the Name, Labels and Engine Options fields --}}

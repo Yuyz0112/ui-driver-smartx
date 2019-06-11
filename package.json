@@ -1,5 +1,5 @@
 {
-  "name": "ui-driver-elf",
+  "name": "ui-driver-smtxos",
   "version": "0.0.2",
   "description": "Skeleton Rancher UI driver for custom docker-machine drivers",
   "repository": {

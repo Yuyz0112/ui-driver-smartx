@@ -54,7 +54,7 @@ export default Ember.Component.extend(NodeDriver, {
       memorySize: 4096,
       diskSize: 10240,
       storagePolicyName: 'default',
-      dockerosImageUrl: '',
+      dockerosImagePath: '',
 
       networkName: 'default',
       ha: false,
@@ -102,8 +102,8 @@ export default Ember.Component.extend(NodeDriver, {
         title: 'Storage policy'
       },
       {
-        key: 'dockerosImageUrl',
-        title: 'OS image URL'
+        key: 'dockerosImagePath',
+        title: 'OS image path'
       },
       {
         key: 'networkName',
@@ -111,7 +111,7 @@ export default Ember.Component.extend(NodeDriver, {
       }
     ];
     fields.forEach(field => {
-      if (!get(this, `model.elfConfig.${field.key}`)) {
+      if (!get(this, `model.smtxosConfig.${field.key}`)) {
         errors.push(`${field.title} is required`)
       }
     })
@@ -130,4 +130,16 @@ export default Ember.Component.extend(NodeDriver, {
   },
 
   // Any computed properties or custom logic can go here
+  collapseMap: {
+    account: true,
+    instance: true,
+    scheduling: true
+  },
+  actions: {
+    toggle(key) {
+      const collapseMap = get(this, "collapseMap");
+      collapseMap[key] = !collapseMap[key];
+      set(this, "collapseMap", {...collapseMap});
+    }
+  }
 });
